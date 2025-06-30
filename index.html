@@ -1,28 +1,47 @@
-// โครงสร้างไฟล์หลัก GT Shopee Clone UI (เวอร์ชันไม่มี Error)
 
-// --- ProductDetailPage.tsx --- import React from "react"; import { Button } from "@/components/ui/button";
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ร้านลูกชิ้น - จัดการร้าน</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #f0f0f0; }
+    .dark { background: #222; color: #fff; }
+    button { margin: 5px; padding: 10px; }
+    #admin-panel { margin-top: 40px; border-top: 1px solid #999; padding-top: 20px; }
+  </style>
+</head>
+<body>
 
-export default function ProductDetailPage() { return ( <div className="p-6 max-w-4xl mx-auto"> <div className="grid grid-cols-1 md:grid-cols-2 gap-6"> <div className="h-80 bg-gray-200 rounded-xl" /> <div> <h1 className="text-2xl font-semibold mb-2">ชื่อสินค้า</h1> <p className="text-red-500 text-xl mb-4">฿199</p> <p className="text-sm text-gray-600 mb-4">รายละเอียดสินค้าสั้น ๆ ที่น่าสนใจ</p> <Button className="w-full">เพิ่มลงรถเข็น</Button> </div> </div> </div> ); }
+<div id="login">
+  <h2>เข้าสู่ระบบร้านค้า</h2>
+  <input id="password" placeholder="รหัสผ่าน" type="password">
+  <button onclick="checkLogin()">เข้าสู่ระบบ</button>
+</div>
 
-// --- AuthPage.tsx --- import React from "react"; import { Input } from "@/components/ui/input"; import { Button } from "@/components/ui/button";
+<div id="main" style="display:none">
+  <h1>ร้านลูกชิ้น</h1>
+  <div id="product-list"></div>
 
-export default function AuthPage() { return ( <div className="min-h-screen flex items-center justify-center bg-gray-100"> <div className="bg-white p-6 rounded-xl shadow-md w-full max-w-sm"> <h2 className="text-xl font-semibold mb-4">เข้าสู่ระบบ</h2> <Input placeholder="อีเมล" className="mb-3" /> <Input placeholder="รหัสผ่าน" type="password" className="mb-4" /> <Button className="w-full">เข้าสู่ระบบ</Button> <div className="text-sm text-center mt-4"> ยังไม่มีบัญชี? <a className="text-blue-500 hover:underline" href="#">สมัครสมาชิก</a> </div> </div> </div> ); }
+  <h2>ตะกร้า</h2>
+  <ul id="cart"></ul>
+  <p>รวม: <span id="total">0</span> บาท</p>
 
-// --- SellerDashboard.tsx --- import React from "react"; import { Card, CardContent } from "@/components/ui/card";
+  <input placeholder="ชื่อ" id="name">
+  <input placeholder="เบอร์โทร" id="phone"><br>
+  <button onclick="checkout()">สั่งซื้อ</button>
+  <br><br>
+  <button onclick="toggleTheme()">เปลี่ยนโหมดกลางวัน/กลางคืน</button>
 
-export default function SellerDashboard() { return ( <div className="p-6"> <h1 className="text-2xl font-semibold mb-6">แดชบอร์ดร้านค้า</h1> <div className="grid grid-cols-1 md:grid-cols-3 gap-4"> <Card> <CardContent className="p-4"> <h2 className="font-medium">คำสั่งซื้อวันนี้</h2> <p className="text-2xl text-blue-600">12</p> </CardContent> </Card> <Card> <CardContent className="p-4"> <h2 className="font-medium">ยอดขายรวม</h2> <p className="text-2xl text-green-600">฿4,250</p> </CardContent> </Card> <Card> <CardContent className="p-4"> <h2 className="font-medium">สินค้าในคลัง</h2> <p className="text-2xl text-gray-700">98</p> </CardContent> </Card> </div> </div> ); }
+  <div id="admin-panel">
+    <h2>🧑‍🍳 แอดมิน: จัดการสินค้า</h2>
+    <input id="new-name" placeholder="ชื่อสินค้า">
+    <input id="new-price" placeholder="ราคา" type="number">
+    <button onclick="addProduct()">เพิ่มสินค้า</button>
+    <ul id="admin-products"></ul>
+  </div>
+</div>
 
-// --- DynamicProducts.tsx --- import React from "react"; import { Card, CardContent } from "@/components/ui/card";
-
-const mockProducts = Array.from({ length: 8 }, (_, i) => ({ id: i + 1, name: สินค้า ${i + 1}, price: 100 + i * 50, }));
-
-export default function DynamicProducts() { return ( <div className="px-6 py-6"> <h2 className="text-lg font-semibold mb-4">🧠 โหลดจากระบบ</h2> <div className="grid grid-cols-2 md:grid-cols-4 gap-4"> {mockProducts.map((product) => ( <Card key={product.id} className="hover:shadow-md"> <CardContent className="p-4"> <div className="h-32 bg-gray-200 mb-2 rounded-xl" /> <div className="font-medium">{product.name}</div> <div className="text-gray-700">฿{product.price}</div> </CardContent> </Card> ))} </div> </div> ); }
-
-// --- CheckoutPage.tsx --- import React from "react"; import { Button } from "@/components/ui/button";
-
-const cartItems = [ { id: 1, name: "สินค้า 1", price: 199, quantity: 1 }, { id: 2, name: "สินค้า 2", price: 299, quantity: 2 }, ];
-
-export default function CheckoutPage() { const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
-return ( <div className="p-6 max-w-3xl mx-auto"> <h1 className="text-2xl font-semibold mb-4">เช็คเอาท์</h1> <div className="space-y-4 mb-6"> {cartItems.map((item) => ( <div key={item.id} className="flex justify-between border-b pb-2"> <div> <div className="font-medium">{item.name}</div> <div className="text-sm text-gray-500">จำนวน: {item.quantity}</div> </div> <div className="text-right">฿{item.price * item.quantity}</div> </div> ))} </div> <div className="text-right text-xl font-bold mb-4">ยอดรวม: ฿{total}</div> <Button className="w-full">ยืนยันการสั่งซื้อ</Button> </div> ); }
-
+<script src="script.js"></script>
+</body>
+</html>
